@@ -16,14 +16,14 @@ public class Mesh
 	int vertexBufferId;						// vertex buffer
 	int triangleBufferId;					// triangle buffer
 	int quadBufferId;                       // quad buffer
-    public Matrix4d localTransMatrix;       // local transform matrix
+    public Matrix4 transformlocal;       // local transform matrix
 
 	// constructor
 	public Mesh( string fileName )
 	{
 		MeshLoader loader = new MeshLoader();
 		loader.Load( this, fileName );
-            localTransMatrix = Matrix4d.Identity;
+            transformlocal = Matrix4.Identity;
 	}
 
 	// initialization; called during first render
@@ -49,7 +49,7 @@ public class Mesh
 	}
 
 	// render the mesh using the supplied shader and matrix
-	public void Render( Shader shader, Matrix4 transform, Texture texture )
+	public void Render( Shader shader, Matrix4 transformcamera, Matrix4 transformworld, Texture texture )
 	{
 		// on first run, prepare buffers
 		Prepare( shader );
@@ -67,7 +67,7 @@ public class Mesh
 		GL.UseProgram( shader.programID );
 
 		// pass transform to vertex shader
-		GL.UniformMatrix4( shader.uniform_mview, false, ref transform );
+		GL.UniformMatrix4( shader.uniform_mview, false, ref transformcamera );
 
 		// enable position, normal and uv attributes
 		GL.EnableVertexAttribArray( shader.attribute_vpos );

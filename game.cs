@@ -12,13 +12,13 @@ class Game
 {
 	// member variables
 	public Surface screen;					// background surface for printing etc.
-	Mesh mesh, floor;						// a mesh to draw using OpenGL
+	public static Mesh teapot, floor;						// a mesh to draw using OpenGL
 	const float PI = 3.1415926535f;			// PI
 	float a = 0;							// teapot rotation angle
 	Stopwatch timer;						// timer for measuring frame duration
-	Shader shader;							// shader to use for rendering
+	public static Shader shader;							// shader to use for rendering
 	Shader postproc;						// shader to use for post processing
-	Texture wood;							// texture to use for rendering
+	public static Texture wood;							// texture to use for rendering
 	RenderTarget target;					// intermediate render target
 	ScreenQuad quad;						// screen filling quad for post processing
 	bool useRenderTarget = true;
@@ -27,7 +27,7 @@ class Game
 	public void Init()
 	{
 		// load teapot
-		mesh = new Mesh( "../../assets/teapot.obj" );
+		teapot = new Mesh( "../../assets/teapot.obj" );
 		floor = new Mesh( "../../assets/floor.obj" );
 		// initialize stopwatch
 		timer = new Stopwatch();
@@ -42,6 +42,11 @@ class Game
 		target = new RenderTarget( screen.width, screen.height );
 		quad = new ScreenQuad();
 	}
+
+        public static Mesh GetMesh => teapot;
+        public static Shader GetShader => shader;
+        public static Texture GetTexture => wood;
+
 
 	// tick for background surface
 	public void Tick()
@@ -60,6 +65,7 @@ class Game
 	
 		// prepare matrix for vertex shader
 		Matrix4 transform = Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
+            Matrix4 toWorld = transform;
 		transform *= Matrix4.CreateTranslation( 0, -4, -15 );
 		transform *= Matrix4.CreatePerspectiveFieldOfView( 1.2f, 1.3f, .1f, 1000 );
 
@@ -73,17 +79,17 @@ class Game
 			target.Bind();
 
 			// render scene to render target
-			mesh.Render( shader, transform, wood );
-			floor.Render( shader, transform, wood );
+			//teapot.Render( shader, transform, wood ); //vervangen voor render method in scenegraph
+			//floor.Render( shader, transform, wood );
 
 			// render quad
-			target.Unbind();
+			target.Unbind(); //gwn laten
 			quad.Render( postproc, target.GetTextureID() );
 		}
 		else
 		{
 			// render scene directly to the screen
-			mesh.Render( shader, transform, wood );
+			teapot.Render( shader, transform, wood ); //wel verneuken
 			floor.Render( shader, transform, wood );
 		}
 	}
