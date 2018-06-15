@@ -65,7 +65,7 @@ class Game
 	
 		// prepare matrix for vertex shader
 		Matrix4 transform = Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
-            Matrix4 toWorld = transform;
+        //Matrix4 toWorld = transform;
 		transform *= Matrix4.CreateTranslation( 0, -4, -15 );
 		transform *= Matrix4.CreatePerspectiveFieldOfView( 1.2f, 1.3f, .1f, 1000 );
 
@@ -79,8 +79,8 @@ class Game
 			target.Bind();
 
 			// render scene to render target
-			//teapot.Render( shader, transform, wood ); //vervangen voor render method in scenegraph
-			//floor.Render( shader, transform, wood );
+			teapot.Render( shader, transform, wood ); //vervangen voor render method in scenegraph
+			floor.Render( shader, transform, wood );
 
 			// render quad
 			target.Unbind(); //gwn laten

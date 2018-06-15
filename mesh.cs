@@ -23,7 +23,7 @@ public class Mesh
 	{
 		MeshLoader loader = new MeshLoader();
 		loader.Load( this, fileName );
-            transformlocal = Matrix4.Identity;
+        transformlocal = Matrix4.Identity;
 	}
 
 	// initialization; called during first render
