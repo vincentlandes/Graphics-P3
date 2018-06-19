@@ -6,39 +6,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Template_P3;
 
-
 namespace template_P3
 {
     class scenegraph
     {
-        public static Node worldSpace = new Node(null, null, null);
-        public static Node teapot = new Node(Game.GetMesh, Game.GetShader, Game.GetTexture);
-        
-        static void SceneGraph()
+        public static Node worldSpace = new Node("Worldspace", null, null, Matrix4.Identity, null);
+        public static Node teapot = new Node("Teapot", Game.GetShader, Game.GetMesh, Matrix4.Identity, Game.GetTexture);
+
+        public void Init()
         {
+            teapot.transformlocal = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+            teapot.transformlocal *= Matrix4.CreateTranslation(0, -4, -15);
+            teapot.transformlocal *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
+
             worldSpace.children.Add(teapot);
+        }
+
+        public void SceneGraph()
+        {
             Render(worldSpace, null);
         }
 
-        static void Render(Node self, Node parent)
+        public static void Render(Node self, Node parent)
         {
-            if (self.mesh != null)
+            if (self.mesh != null && parent != null)
             {
-                Matrix4 parenttransformcamera = parent.mesh.transformlocal;
-                Matrix4 parenttransformworld = parent.mesh.transformlocal;
-            //parent.mesh.Render(parent.shader, , parent.texture);
+                //self.transformlocal *= parent.transformlocal;
+                self.mesh.Render(self.shader, self.transformlocal * parent.transformlocal, self.texture);
             }
 
-            if (self.children != null)
+            foreach (Node child in self.children)
             {
-                foreach (Node child in parent.children)
-                {
-                    Matrix4 childtransformworld = parent.mesh.transformlocal * child.mesh.transformlocal;
-                    //hier transform berekenen, meegeven in n.mesh.render
-                    if (child.children != null)
-                        Render(child, self);
-                }
+                Render(child, self);
             }
+
             //voor iedere node camera matrix * root trnsform * child transform
 
             //hierna render methode aanroepen 
