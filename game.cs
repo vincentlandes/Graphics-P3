@@ -14,13 +14,13 @@ namespace Template_P3
     {
         // member variables
         public Surface screen;                  // background surface for printing etc.
-        public static Mesh teapot, floor, dummy;       // a mesh to draw using OpenGL
+        public static Mesh teapot, floor, dummy;// a mesh to draw using OpenGL
         const float PI = 3.1415926535f;         // PI
         float a = 0;                            // teapot rotation angle
         Stopwatch timer;                        // timer for measuring frame duration
         public static Shader shader;            // shader to use for rendering
         Shader postproc;                        // shader to use for post processing
-        public static Texture wood;             // texture to use for rendering
+        public static Texture wood, glass;      // texture to use for rendering
         RenderTarget target;                    // intermediate render target
         ScreenQuad quad;                        // screen filling quad for post processing
         bool useRenderTarget = true;
@@ -42,6 +42,7 @@ namespace Template_P3
             postproc = new Shader("../../shaders/vs_post.glsl", "../../shaders/fs_post.glsl");
             // load a texture
             wood = new Texture("../../assets/wood.jpg");
+            glass = new Texture("../../assets/glass.jpg");
             // create the render target
             target = new RenderTarget(screen.width, screen.height);
             quad = new ScreenQuad();
@@ -53,6 +54,7 @@ namespace Template_P3
         public static Mesh GetFloor => floor;
         public static Shader GetShader => shader;
         public static Texture GetTexture => wood;
+        public static Texture GetTextureGlass => glass;
         public static Mesh GetDummy => dummy;
 
 
@@ -64,9 +66,9 @@ namespace Template_P3
             var keyboard = OpenTK.Input.Keyboard.GetState();
 
             if (keyboard[OpenTK.Input.Key.Up])
-                scenegraph.camera.transformlocal *= Matrix4.CreateTranslation(0, -0.05f, 0);
+                scenegraph.camera.transformlocal *= Matrix4.CreateTranslation(0, -0.5f, 0);
             if (keyboard[OpenTK.Input.Key.Down])
-                scenegraph.camera.transformlocal *= Matrix4.CreateTranslation(0, 0.05f, 0);
+                scenegraph.camera.transformlocal *= Matrix4.CreateTranslation(0, 0.5f, 0);
             if (keyboard[OpenTK.Input.Key.Left])
                 scenegraph.camera.transformlocal *= Matrix4.CreateTranslation(0.05f, 0, 0);
             if (keyboard[OpenTK.Input.Key.Right])

@@ -6,10 +6,10 @@ in vec4 normal;					// interpolated normal
 in vec3 Position;				// untransformed vertex position
 uniform sampler2D pixels;		// texture sampler
 uniform vec3 color;				// ambient color
-uniform vec3 lightPos = vec3(0,100,10);
+uniform vec3 lightPos = vec3(0,15,-10);
 float angle;
 float L;
-float B = 150000;
+float B = 500;
 								//hoe groter hoek tussen normal en invallende straal
 
 // shader output
