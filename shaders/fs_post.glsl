@@ -12,10 +12,11 @@ void main()
 {
 	// retrieve input pixel
 	outputColor = texture( pixels, uv ).rgb;
-	// apply dummy postprocessing effect
+	// apply postprocessing effect
 	float dx = P.x - 0.5, dy = P.y - 0.5;
 	float distance = sqrt( dx * dx + dy * dy );
-	outputColor *= sin( distance * 10.0f ) * 0.25f + 0.75f;
+	outputColor *= sin( distance * 7.0f ) * 0.3f + 0.75f;
+	//outputColor = texture( pixels, uv - vec2(sin(distance),0)).rgb ;
 }
 
 // EOF

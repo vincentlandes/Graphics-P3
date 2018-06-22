@@ -66,11 +66,14 @@ public class Mesh
 
 		// pass transform to vertex shader
 		GL.UniformMatrix4( shader.uniform_mview, false, ref transformlocal );
+        
 
 		// enable position, normal and uv attributes
 		GL.EnableVertexAttribArray( shader.attribute_vpos );
 		GL.EnableVertexAttribArray( shader.attribute_vnrm );
 		GL.EnableVertexAttribArray( shader.attribute_vuvs );
+        GL.EnableVertexAttribArray( shader.attribute_lpos );
+        GL.EnableVertexAttribArray( shader.attribute_lcol );
 
 		// bind interleaved vertex data
 		GL.EnableClientState( ArrayCap.VertexArray );
@@ -81,6 +84,8 @@ public class Mesh
 		GL.VertexAttribPointer( shader.attribute_vuvs, 2, VertexAttribPointerType.Float, false, 32, 0 );
 		GL.VertexAttribPointer( shader.attribute_vnrm, 3, VertexAttribPointerType.Float, true, 32, 2 * 4 );
 		GL.VertexAttribPointer( shader.attribute_vpos, 3, VertexAttribPointerType.Float, false, 32, 5 * 4 );
+        GL.VertexAttribPointer( shader.attribute_lpos, 3, VertexAttribPointerType.Float, false, 32, 8 * 4);
+        GL.VertexAttribPointer( shader.attribute_lcol, 4, VertexAttribPointerType.Float, false, 32, 11 * 4);
 
 		// bind triangle index data and render
 		GL.BindBuffer( BufferTarget.ElementArrayBuffer, triangleBufferId );

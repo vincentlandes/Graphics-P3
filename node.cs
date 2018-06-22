@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Template_P3;
 using OpenTK;
 
-namespace template_P3
+namespace Template_P3
 {
-    class Node
+    public class Node
     {
         public String Name;
         public Mesh mesh;
